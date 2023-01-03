@@ -2,6 +2,8 @@
 # # Model 0 : Naive Bayes (baseline), this is from sklearn ML map
 
 # %%
+from models.model7 import model_7
+from core.data_sets import train_sentences_10_percent, train_labels_10_percent
 import tensorflow_hub as hub
 from models.model6 import model_6
 from models.model5 import model_5
@@ -78,7 +80,7 @@ model_1_results
 
 
 # %%
-model_2.compile(loss=tf.keras.losses.BinaryCrossentropy(),
+model_2.compile(loss="binary_crossentropy",
                 optimizer=tf.keras.optimizers.Adam(), metrics=["accuracy"])
 
 model_2_history = model_2.fit(train_sentences, train_labels, epochs=5, validation_data=(
@@ -169,4 +171,22 @@ model_6_history = model_6.fit(train_sentences, train_labels, epochs=5, validatio
     val_sentences, val_labels), callbacks=[create_tensorboard_callback("model_logs", "model_6_transferlearning")])
 
 process_the_model_output(tf, model_6, val_sentences,
+                         val_labels, calculate_results)
+
+
+# %% [markdown]
+# # 10 % Data
+
+# %%
+
+
+# %%
+
+model_7.compile(loss="binary_crossentropy",
+                optimizer=tf.keras.optimizers.Adam(), metrics=["accuracy"])
+
+model_7_history = model_7.fit(train_sentences_10_percent, train_labels_10_percent, epochs=5, validation_data=(
+    val_sentences, val_labels), callbacks=[create_tensorboard_callback("model_logs", "model_7_USE")])
+
+process_the_model_output(tf, model_7, val_sentences,
                          val_labels, calculate_results)
